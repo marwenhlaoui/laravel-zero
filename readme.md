@@ -16,6 +16,13 @@ And update your laravel version with composer.json
 ```git
 composer update 
 ``` 
+Finally run all related script
+```git
+composer run-script post-root-package-install 
+composer run-script post-create-project-cmd 
+composer run-script post-install-cmd 
+composer run-script post-update-cmd 
+``` 
 ### License
 
 The Laravel framework is open-sourced software licensed under the MIT license.
