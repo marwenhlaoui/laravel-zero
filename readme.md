@@ -27,4 +27,4 @@ composer run-script post-update-cmd
 
 The Laravel framework is open-sourced software licensed under the MIT license.
 	
-This code By : [Marwen Hlaoui](https://marwenhlaoui.me)
+Code By : [Marwen Hlaoui](https://marwenhlaoui.me)
