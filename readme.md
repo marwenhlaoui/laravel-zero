@@ -25,9 +25,9 @@ composer run-script post-update-cmd
 ``` 
 ### Start
 add your application environment in `.env` file :
-	+ 	[x] database name :fa-database
-	+	[x] mailer system :fa-envelope
 
+ - Database data  &nbsp; <i class="icon-layers"></i>
+ - Mailer config &nbsp; &nbsp;   <i class="icon-inbox"></i>
 
 migrate your database
 ```git
@@ -38,4 +38,6 @@ php artisan migrate
 
 The Laravel framework is open-sourced software licensed under the MIT license.
 	
-Code By : [Marwen Hlaoui](https://marwenhlaoui.me)
+**Code By : <i class="icon-provider-ssh"></i> [Marwen Hlaoui](https://marwenhlaoui.me)**
+
+
