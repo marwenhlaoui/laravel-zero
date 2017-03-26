@@ -25,8 +25,8 @@ composer run-script post-update-cmd
 ``` 
 ### Start
 add your application environment in `.env` file :
-	-[x] database name :fa-databese
-	-[x] mailer system :fa-envelope
+	+ 	[x] database name :fa-database
+	+	[x] mailer system :fa-envelope
 
 
 migrate your database
