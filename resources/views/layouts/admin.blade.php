@@ -13,7 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- ion icons -->
-    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> 
 </head>
 <body>
     <div id="app">
@@ -73,18 +73,43 @@
         
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-xs-3"> 
+                <div class="col-xs-12">
+                    @if(\Session::has('alert')) 
+                        <div class="alert alert-dismissible alert-{{(!empty(\Session::get('alert')->class))? \Session::get('alert')->class : 'danger' }}">
+                          <button type="button" class="close" data-dismiss="alert">&times;</button>
+                          @if(!empty(\Session::get('alert')->title))
+                          <h4>{{\Session::get('alert')->title}}</h4>
+                          @endif
+                          @if(!empty(\Session::get('alert')->msg))
+                          <p>{!!\Session::get('alert')->msg!!}</p>
+                          @endif 
+                        </div>
+                    @endif
+                </div>
+                <div class="col-md-3 hidden-xs col-sm-3"> 
                     @include('layouts.admin.includes._menu')
                 </div>
-                <div class="col-md-8 col-xs-9">
+                <div class="col-md-8 col-xs-12 col-sm-9">
                     @yield('content') 
                 </div>
             </div>
         </div> 
 
     </div>
+ 
 
+    
+    {{-- @include('layouts.admin.includes._modal') --}}
+    {{-- @include('layouts.admin.includes._modal-confirm') --}}
+
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+    <!-- Bootstrap js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('js')
 </body>
 </html>

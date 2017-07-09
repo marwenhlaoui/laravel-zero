@@ -4,29 +4,29 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="alert alert-dismissible alert-info"> 
-					  <h4>{{count(\App\Models\User::all())}}</h4> 
-					  <p>All accounts</p>
+					  <h4>{{count(\App\Models\Media::all())}}</h4> 
+					  <p>All medias</p>
 					</div>
 				</div>
 				<div class="col-sm-4">
 					<div class="alert alert-dismissible alert-danger"> 
-					  <h4>{{count(\App\Models\User::where('role',true)->get())}}</h4> 
-					  <p>All admins</p>
+					  <h4>{{count(\App\Models\Media::all())}}</h4> 
+					  <p>All medias</p>
 					</div>
 				</div>
 				<div class="col-sm-4">
 					<div class="alert alert-dismissible alert-warning"> 
-					  <h4>{{count(\App\Models\User::where('role',false)->get())}}</h4> 
-					  <p>All users</p>
+					  <h4>{{count(\App\Models\Media::all())}}</h4> 
+					  <p>All medias</p>
 					</div>
 				</div>
 			</div> 
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<span class="pull-right">
-                		<a href="{{ route('admin.users.create') }}" class="btn btn-xs btn-success"><i class="ion ion-plus"></i> &nbsp; Add New User</a>
+                		<a href="{{route('admin.media.create')}}" class="btn btn-xs btn-success" data-toggle="modal" data-target="#mediaUploadModal"><i class="ion ion-plus"></i> &nbsp; Upload media</a>
                 	</span>
-                	<b>Users</b>
+                	<b>Media</b>
                 </div>
 
                 <div class="panel-body">
@@ -42,7 +42,7 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-					  	@foreach($users as $k=>$user)
+					  	@foreach($medias as $k=>$user)
 					    <tr>
 					      <td>{{$k+1}}</td>
 					      <td>{{str_limit($user->name,15,'...')}}</td>
@@ -70,9 +70,8 @@
 					</table> 
                 </div>
             </div> 
-					<center>{{ $users->links() }}</center>
-@endsection
-@include('layouts.admin.includes._modal-confirm')
+@include('layouts.admin.includes._modal') 
+@endsection 
 @section('js')
 <script type="text/javascript">
 	$('.delete-user').on('click',function(e){
