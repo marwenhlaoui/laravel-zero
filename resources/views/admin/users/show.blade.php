@@ -16,7 +16,7 @@
                             @if($user->role)
                             <span class="label label-success" style="position: absolute;">admin</span>
                             @endif
-                            <img src="{{asset('img/user-default.png')}}" class="img-thumbnail" style="max-width: 100%">
+                            <img src="{{asset($user->avatar())}}" class="img-thumbnail" style="max-width: 100%">
                         </div>
                         <div class="col-sm-8">
                             <h4>{{ $user->name }}</h4>

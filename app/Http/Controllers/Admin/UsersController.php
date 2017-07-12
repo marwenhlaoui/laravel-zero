@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Admin\MediaController as Upload;
 
 class UsersController extends Controller
 {
@@ -41,12 +42,19 @@ class UsersController extends Controller
         $this->validate($request,[
             "name"      => "required|min:5|max:20",
             "email"     => "required|unique:users|email|max:100",
-            "password"  => "required|min:6|max:20|confirmed"
+            "password"  => "required|min:6|max:20|confirmed",
+            "avatar"    => "max:5000|image"
         ]);
 
         $user = new User;
+        if(!empty($request->file('avatar'))){
+            $uploadImg = new Upload;
+            $avatar = $uploadImg->store($request,'avatar');
+            $user->avatar = $avatar->id;
+        }
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->role = (!empty($request->role))?true:false; 
         $user->password = bcrypt($request->password); 
         $user->save();  
         $alert['class'] = "success";
@@ -90,9 +98,16 @@ class UsersController extends Controller
         $this->validate($request,[
             "name"      => "required|min:5|max:20",
             "email"     => ["required","email","max:100",Rule::unique('users')->ignore($user->id)],
-            "password"  => "max:20|confirmed"
+            "password"  => "max:20|confirmed",
+            "avatar"    => "max:5000|image"
         ]); 
 
+
+        if(!empty($request->file('avatar'))){
+            $uploadImg = new Upload;
+            $avatar = $uploadImg->store($request,'avatar');
+            $user->avatar = $avatar->id;
+        }
         $user->name = $request->name;
         $user->email = $request->email;
         if (!empty($request->password)) {

@@ -34,16 +34,17 @@ class MediaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$run=null)
     {  
+        $run = (!empty($run))?$run: "media" ;
         $this->validate($request,[
-                "media" => "required|max:10000"
+                $run => "required|max:10000"
             ]);
 
         $dir = 'upload/'.date('Y/m/d/');
         $filename = md5(\Auth::user()->id).time(); 
-        if (!empty($request->file('media'))) {
-            $file = $request->file('media');
+        if (!empty($request->file($run))) {
+            $file = $request->file($run);
             $urlFilename = $filename.'.'.$file->getClientOriginalExtension(); 
             $previewFilename = 'preview'.$filename.'.png'; 
             \File::isDirectory($dir) or \File::makeDirectory($dir,0777,true,true); 
@@ -60,7 +61,9 @@ class MediaController extends Controller
             $media->preview = $dir.$previewFilename;
             $media->save();
         }
-
+        if(!empty($run)){
+            return $media;
+        }
         return redirect()->back();
     }
 

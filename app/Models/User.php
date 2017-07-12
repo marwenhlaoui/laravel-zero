@@ -30,4 +30,15 @@ class User extends Authenticatable
     public function isAdmin(){
         return $this->role;
     }
+
+    public function avatar($preview=true){
+        if(!empty($this->avatar)){
+            $avatar = Media::find($this->avatar);
+            if($preview == true){
+                return $avatar->preview;
+            }
+            return $avatar->url;
+        }
+        return config('app.avatar');
+    }
 }

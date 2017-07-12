@@ -44,7 +44,9 @@
 					  <tbody>
 					  	@foreach($users as $k=>$user)
 					    <tr>
-					      <td>{{$k+1}}</td>
+					      <td>
+					      		<img src="{{ asset($user->avatar()) }}" style="max-width: 30px;min-width: 30px;" >
+					      </td>
 					      <td>{{str_limit($user->name,15,'...')}}</td>
 					      <td class="visible-sm visible-md  visible-lg hidden-xs">{{str_limit($user->email,15,'...')}}</td>
 					      <td class="hidden-xs hidden-sm">

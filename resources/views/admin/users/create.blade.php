@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.users.store') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.users.store') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -39,6 +39,31 @@
                                     </span>
                                 @endif
                             </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
+                            <label for="avatar" class="col-md-4 control-label">Avatar</label>
+
+                            <div class="col-md-6">
+                                <input id="avatar" type="file" class="form-control" name="avatar" >
+
+                                @if ($errors->has('avatar'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('avatar') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label">Role</label>
+                          <div class="col-md-6">
+                            <div class="checkbox">
+                              <label>
+                                <input name="role" type="checkbox" {{ (old('role'))?'checked':'' }}> Admin
+                              </label>
+                            </div>
+                          </div>
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
