@@ -1,16 +1,24 @@
-    <div class="row" style="padding: 5px;">
-        <form action="" method="post" enctype="multipart/form-data" class="col-md-10 col-md-offset-1"> 
-            <div class="form-group">
-              <div class="col-lg-10 col-lg-offset-2">
-                <input type="file" name="media" class="form-control">
-                <hr>
-              </div>
-            </div>    
-            <div class="form-group">
-              <div class="col-xs-6 col-xs-offset-6">
-                <button type="reset" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-primary">Upload</button>
-              </div>
-            </div>
-        </form>
-    </div> 
+<form class="form-horizontal row" style="padding: 20px 5%;" action="{{ route('admin.media.store') }}" method="post" enctype="multipart/form-data" >
+ {{ csrf_field() }}
+  <fieldset>
+    <legend>Upload Media</legend>
+    <div class="form-group">
+      <label for="inputTitle" class="col-lg-2 control-label">Title</label>
+      <div class="col-lg-10">
+        <input type="text" name="title" class="form-control" id="inputTitle" placeholder="Title">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputFile" class="col-lg-2 control-label">File</label>
+      <div class="col-lg-10">
+        <input type="file" name="media" class="form-control" id="inputFile" placeholder="File"> 
+      </div>
+    </div>  
+    <div class="form-group"><hr>
+      <div class="col-md-4 col-md-offset-8">
+        <button type="reset" class="btn btn-default">Cancel</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </div>
+    </div>
+  </fieldset>
+</form>

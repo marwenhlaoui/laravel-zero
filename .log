@@ -4,3 +4,4 @@ auth system
 users roles (admin,user)
 include laravision curd
 media system (upload,manage,delete)
+include Intervention Image

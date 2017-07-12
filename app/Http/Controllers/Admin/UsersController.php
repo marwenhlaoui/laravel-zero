@@ -51,7 +51,7 @@ class UsersController extends Controller
         $user->save();  
         $alert['class'] = "success";
         $alert['title'] = "Done";
-        $alert['msg'] = "user $user->name created sussfully !";
+        $alert['msg'] = "user $user->name successfully created !";
         \Session::flash('alert',(object)$alert);
         return redirect()->route('admin.users.index');
     }
@@ -102,7 +102,7 @@ class UsersController extends Controller
         $user->save();  
         $alert['class'] = "warning";
         $alert['title'] = "Warning";
-        $alert['msg'] = "user $user->name updated sussfully !";
+        $alert['msg'] = "user $user->name successfully updated !";
         \Session::flash('alert',(object)$alert);
         return redirect()->route('admin.users.index');
     }
@@ -118,7 +118,7 @@ class UsersController extends Controller
         $user->delete();
         $alert['class'] = "success";
         $alert['title'] = "Done";
-        $alert['msg'] = "user <b>$user->name</b> deleted! ";
+        $alert['msg'] = "user <b>$user->name</b> successfully deleted! ";
         \Session::flash('alert',(object)$alert);
         return redirect()->route('admin.users.index');
     }

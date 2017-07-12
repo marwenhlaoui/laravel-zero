@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Media;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller; 
 
 class MediaController extends Controller
 {
@@ -14,7 +14,7 @@ class MediaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   $medias = [];
+    {   $medias = Media::orderBy('id','desc')->paginate(20);
         return view('admin.media.index',compact('medias'));
     }
 
@@ -35,8 +35,33 @@ class MediaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {  
+        $this->validate($request,[
+                "media" => "required|max:10000"
+            ]);
+
+        $dir = 'upload/'.date('Y/m/d/');
+        $filename = md5(\Auth::user()->id).time(); 
+        if (!empty($request->file('media'))) {
+            $file = $request->file('media');
+            $urlFilename = $filename.'.'.$file->getClientOriginalExtension(); 
+            $previewFilename = 'preview'.$filename.'.png'; 
+            \File::isDirectory($dir) or \File::makeDirectory($dir,0777,true,true); 
+            $img = \Image::make($file->getRealPath());
+            $file->move($dir,$urlFilename);  
+            $img->resize(100, 100);
+            $img->save($dir.$previewFilename);
+
+            $media = new Media;
+            $media->title = (!empty($request->input('title')))?$request->input('title'):$file->getClientOriginalName();
+            $media->by = \Auth::user()->id;
+            $media->size = $file->getClientSize();//oct 
+            $media->url = $dir.$urlFilename;
+            $media->preview = $dir.$previewFilename;
+            $media->save();
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -45,9 +70,10 @@ class MediaController extends Controller
      * @param  \App\Models\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function show(Media $media)
+    public function show($id)
     {
-        //
+        $media = Media::find($id);
+        return view('admin.media.show',compact('media'));
     }
 
     /**
@@ -79,8 +105,15 @@ class MediaController extends Controller
      * @param  \App\Models\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Media $media)
-    {
-        //
+    public function destroy($id)
+    {   
+        $media = Media::find($id);
+        \File::delete($media->url, $media->preview);
+        $media->delete();
+        $alert['class'] = "success";
+        $alert['title'] = "Done";
+        $alert['msg'] = "media <b>$media->title</b> successfully deleted! ";
+        \Session::flash('alert',(object)$alert);
+        return redirect()->route('admin.media.index');
     }
 }
