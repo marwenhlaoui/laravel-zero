@@ -34,10 +34,12 @@ class User extends Authenticatable
     public function avatar($preview=true){
         if(!empty($this->avatar)){
             $avatar = Media::find($this->avatar);
-            if($preview == true){
-                return $avatar->preview;
+            if (!empty($avatar->id)) {
+                if($preview == true){
+                    return $avatar->preview;
+                }
+                return $avatar->url;
             }
-            return $avatar->url;
         }
         return config('app.avatar');
     }
