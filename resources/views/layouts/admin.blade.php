@@ -14,6 +14,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- ion icons -->
     <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> 
+    <!-- font awesome -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div id="app">
@@ -111,5 +113,6 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('js')
+    @yield('css')
 </body>
 </html>

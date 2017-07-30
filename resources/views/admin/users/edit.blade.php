@@ -56,17 +56,31 @@
                                 @endif
                             </div>
                         </div>
-
+                        @if($user->id != 1)
                         <div class="form-group">
                           <label class="col-md-4 control-label">Role</label>
                           <div class="col-md-6">
                             <div class="checkbox">
                               <label>
-                                <input name="role" type="checkbox" {{ (old('role')OR($user->role))?'checked':'' }}> Admin
+                                <input name="role" type="checkbox" {{ (old('role')OR($user->role))?'checked':'' }} id="userRole"> &nbsp; Admin
                               </label>
                             </div>
                           </div>
                         </div>
+
+                        <div class="form-group" id="userServices" style="display: {{($user->isAdmin())?'none':'block'}}">
+                          <label class="col-md-4 control-label">Services</label>
+                          <div class="col-md-6">
+                            <div class="checkbox">
+                            @foreach(App\Models\Service::all() as $k=>$service) 
+                              <label>
+                                <input name="services[]" type="checkbox" value="{{$service->id}}"  {{ (in_array($service->id,$user->services('service')))? "checked" : ""}}> &nbsp; {{$service->title}}
+                              </label><br>
+                            @endforeach
+                            </div>
+                          </div>
+                        </div>
+                        @endif
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
@@ -95,14 +109,20 @@
                                 <button type="submit" class="btn btn-success">
                                     Update
                                 </button>
-                            <a href="" class="btn btn-danger delete-user" data-user="{{$user->id}}">Delete</a>
+
+                            @if(Auth::user()->id != $user->id)
+                                <a href="" class="btn btn-danger delete-user" data-user="{{$user->id}}">Delete</a>
+                            @endif
                             </div>
                         </div>
                     </form>
+
+                    @if(Auth::user()->id != $user->id)
                     <form action="{{ route('admin.users.destroy',$user->id) }}" method="post" id="delete-form">
                                 {{csrf_field()}}
                                 {{ method_field('delete') }} 
                     </form>
+                    @endif
                 </div>
             </div> 
 @endsection
@@ -121,6 +141,15 @@
           form.submit();
         });
         
+    });
+
+    $('#userRole').on('change',function(){ 
+        var isAdmin = $(this).is(':checked');
+        if(isAdmin){
+            $("#userServices").slideToggle("hide");
+        }else{
+            $("#userServices").slideToggle("show");
+        }
     });
 </script>
 @stop

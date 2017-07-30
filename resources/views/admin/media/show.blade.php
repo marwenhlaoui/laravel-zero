@@ -11,12 +11,20 @@
 
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-sm-6"> 
+                        <div class="col-sm-6">
+                            <span class="pull-right label label-info">{{ $media->type }}</span>
+                            @if($media->type == "picture") 
                             <img src="{{asset($media->url)}}" class="img-thumbnail" style="max-width: 100%">
+                            @elseif($media->type == "pdf")
+                            <center>
+                                <i class="ion ion-android-document" style="font-size: 20em;"></i><br>
+                                <a href="{{ asset($media->url) }}" class="btn btn-success btn-xs">Download</a>
+                            </center>
+                            @endif
                         </div>
                         <div class="col-sm-6">
                             <h4>Title : {{ $media->title }}</h4>
-                            <h5>Uploaded by : {{ $media->by()->name }}</h5> 
+                            <h5>Uploaded by : {{ (!empty($media->by()->id))?$media->by()->name:'Anonyme' }}</h5> 
                             <h5>Uploaded at : {{ $media->created_at }} &nbsp; ({{ $media->created_at->diffForHumans() }})</h5>
                             <b>Size : {{ $media->size }} oct</b> 
                         </div>

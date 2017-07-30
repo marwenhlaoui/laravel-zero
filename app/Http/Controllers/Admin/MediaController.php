@@ -13,8 +13,14 @@ class MediaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {   $medias = Media::orderBy('id','desc')->paginate(20);
+    public function index(Request $req)
+    {   
+        $allTypes = ['picture', 'video','audio','pdf','rar'];
+        if (!empty($req->input('type'))&&(in_array($req->input('type'), $allTypes))) {
+            $medias = Media::where('type',$req->input('type'))->orderBy('id','desc')->paginate(20);
+        }else{
+            $medias = Media::orderBy('id','desc')->paginate(20);
+        }
         return view('admin.media.index',compact('medias'));
     }
 
@@ -61,7 +67,7 @@ class MediaController extends Controller
             $media->preview = $dir.$previewFilename;
             $media->save();
         }
-        if(!empty($run)){
+        if(!empty($run)&&($run != "media")){
             return $media;
         }
         return redirect()->back();

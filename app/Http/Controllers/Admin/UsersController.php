@@ -17,7 +17,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::orderBy('id','desc')->paginate(10);
         return view('admin.users.index',compact('users'));
     }
 
@@ -57,6 +57,17 @@ class UsersController extends Controller
         $user->role = (!empty($request->role))?true:false; 
         $user->password = bcrypt($request->password); 
         $user->save();  
+
+        if (!empty($request->services)&&($user->role == false)) {
+            foreach ($request->services as $key => $service) {
+                \DB::table('service_user')->insert([
+                    "user"      => $user->id,
+                    "service"   => $service
+                ]);
+            }
+        }
+
+
         $alert['class'] = "success";
         $alert['title'] = "Done";
         $alert['msg'] = "user $user->name successfully created !";
@@ -115,6 +126,19 @@ class UsersController extends Controller
         }
         $user->role = (!empty($request->role))?true:false; 
         $user->save();  
+
+        if (!empty($request->services)&&($user->role == false)) {
+            foreach ($request->services as $key => $service) {
+                \DB::table('service_user')->insert([
+                    "user"      => $user->id,
+                    "service"   => $service
+                ]);
+            }
+        }else{
+            \DB::table('service_user')->where('user',$user->id)->delete();
+        }
+
+
         $alert['class'] = "warning";
         $alert['title'] = "Warning";
         $alert['msg'] = "user $user->name successfully updated !";
@@ -130,10 +154,17 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-        $alert['class'] = "success";
-        $alert['title'] = "Done";
-        $alert['msg'] = "user <b>$user->name</b> successfully deleted! ";
+        if((\Auth::user()->id != $user->id)&&($user->id != 1)){ 
+            \DB::table('service_user')->where('user',$user->id)->delete();
+            $user->delete();
+            $alert['class'] = "success";
+            $alert['title'] = "Done";
+            $alert['msg'] = "user <b>$user->name</b> successfully deleted! ";
+        }else{ 
+            $alert['class'] = "danger";
+            $alert['title'] = "Sorry !";
+            $alert['msg'] = "you dont have access to delete <b>$user->name</b> !";
+        }
         \Session::flash('alert',(object)$alert);
         return redirect()->route('admin.users.index');
     }

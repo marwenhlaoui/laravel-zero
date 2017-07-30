@@ -21,7 +21,7 @@ class CreateMediaTable extends Migration
             $table->string('size');
             $table->longText('data')->nullable();
             $table->string('title')->nullable()->default('');
-            $table->integer('by')->unsigned();
+            $table->integer('by')->unsigned()->nullable();
             $table->foreign('by')->references('id')->on('users')
                   ->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

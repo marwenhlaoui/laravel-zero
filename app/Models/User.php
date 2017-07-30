@@ -43,4 +43,20 @@ class User extends Authenticatable
         }
         return config('app.avatar');
     }
+
+    public static function allUsers(){
+        return User::where('role',false)->get();
+    }
+
+    public function services($value=null){
+        $data =  \DB::table('service_user')->where('user',$this->id)->get();
+        $list = [];
+        if(!empty($value)){ 
+            foreach ($data as $key => $item) {
+                $list[] = $item->$value;
+            }
+            $data = $list;
+        }
+        return $data;
+    }
 }

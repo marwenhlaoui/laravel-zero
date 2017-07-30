@@ -11,4 +11,8 @@ class Media extends Model
     public function by(){
     	return User::find($this->by);
     }
+
+    public static function collect($type){
+    	return Media::where('type',$type)->get();
+    }
 }

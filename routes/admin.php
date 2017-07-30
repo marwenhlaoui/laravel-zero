@@ -14,3 +14,5 @@
 Route::get('/', 'Admin\DashboardController@index')->name('dashboard');
 Route::resource('users','Admin\UsersController');
 Route::resource('media','Admin\MediaController');
+Route::resource('inbox','Admin\InboxController');
+Route::resource('service','Admin\ServiceController');

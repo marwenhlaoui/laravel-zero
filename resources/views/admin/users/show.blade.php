@@ -5,7 +5,9 @@
                 <div class="panel-heading">
                 	<span class="pull-right">  
                         <a href="{{ route('admin.users.edit',$user->id) }}" class="btn btn-xs btn-warning"><i class="ion ion-gear-b"></i> &nbsp; Edit</a>
+                        @if(Auth::user()->id != $user->id)
                         <a href="" class="btn btn-xs btn-danger delete-user"><i class="ion ion-trash-a"></i> &nbsp; Delete</a>
+                        @endif
                 	</span> 
                     <b>{{$user->name}}</b>
                 </div>
@@ -23,10 +25,12 @@
                             <h5>{{ $user->email }}</h5> 
                         </div>
                     </div>
+                        @if(Auth::user()->id != $user->id)
                     <form action="{{ route('admin.users.destroy',$user->id) }}" method="post" id="delete-form">
                                 {{csrf_field()}}
                                 {{ method_field('delete') }} 
                     </form>
+                    @endif
                 </div>
             </div> 
 @endsection

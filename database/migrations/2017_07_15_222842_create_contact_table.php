@@ -18,7 +18,7 @@ class CreateContactTable extends Migration
             $table->string('email');
             $table->string('name');
             $table->string('service');
-            $table->integer('file')->unsined();
+            $table->integer('file')->unsined()->nullable();
             $table->longText('message')->nullable();
             $table->boolean('see')->default(false);
             $table->foreign('file')->references('id')->on('media')

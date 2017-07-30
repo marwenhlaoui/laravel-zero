@@ -60,8 +60,21 @@
                           <div class="col-md-6">
                             <div class="checkbox">
                               <label>
-                                <input name="role" type="checkbox" {{ (old('role'))?'checked':'' }}> Admin
+                                <input name="role" type="checkbox" {{ (old('role'))?'checked':'' }} id="userRole"> Admin
                               </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group" id="userServices">
+                          <label class="col-md-4 control-label">Services</label>
+                          <div class="col-md-6">
+                            <div class="checkbox">
+                            @foreach(App\Models\Service::all() as $k=>$service)
+                              <label>
+                                <input name="services[]" type="checkbox" value="{{$service->id}}"> &nbsp; {{$service->title}}
+                              </label><br>
+                            @endforeach
                             </div>
                           </div>
                         </div>
@@ -99,3 +112,17 @@
                 </div>
             </div> 
 @endsection
+
+@section('js')
+<script type="text/javascript"> 
+    $('#userRole').on('change',function(){ 
+        var isAdmin = $(this).is(':checked');
+        if(isAdmin){
+            $("#userServices").slideToggle("hide");
+        }else{
+            $("#userServices").slideToggle("show");
+        }
+    });
+</script>
+    
+@stop

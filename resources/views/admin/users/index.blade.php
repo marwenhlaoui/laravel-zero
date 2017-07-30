@@ -35,7 +35,7 @@
 					    <tr>
 					      <th>#</th>
 					      <th>Name</th>
-					      <th class="visible-sm visible-md  visible-lg hidden-xs">E-mail</th>
+					      <th class="visible-sm visible-md  hidden-lg hidden-xs">E-mail</th>
 					      <th class="hidden-xs hidden-sm">Role</th>
 					      <th class="hidden-sm hidden-xs visible-lg">Created at</th>
 					      <th></th>
@@ -48,7 +48,7 @@
 					      		<img src="{{ asset($user->avatar()) }}" style="max-width: 30px;min-width: 30px;" >
 					      </td>
 					      <td>{{str_limit($user->name,15,'...')}}</td>
-					      <td class="visible-sm visible-md  visible-lg hidden-xs">{{str_limit($user->email,15,'...')}}</td>
+					      <td class="visible-sm hidden-lg hidden-xs">{{str_limit($user->email,15,'...')}}</td>
 					      <td class="hidden-xs hidden-sm">
 					      	@if($user->role)
 					      	<span class="label label-success">admin</span>
@@ -60,11 +60,13 @@
 					      <td>
 					      	<a href="{{ route('admin.users.show',$user->id) }}" class="btn btn-xs btn-info">Show</a>
 					      	<a href="{{ route('admin.users.edit',$user->id) }}" class="btn btn-xs btn-warning">Edit</a>
+					      	@if(Auth::user()->id != $user->id)
 					      	<a href="" class="btn btn-xs btn-danger delete-user" data-user="{{$user->id}}">Delete</a>
 					      	<form action="{{ route('admin.users.destroy',$user->id) }}" method="post" >
 					      		{{csrf_field()}}
 					      		{{ method_field('delete') }} 
 					      	</form>
+					      	@endif
 					      </td>
 					    </tr> 
 					    @endforeach
